@@ -8,7 +8,7 @@ ARG UID=1000
 ARG GROUP=ed
 ARG GID=1000
 ARG SHELL=/bin/zsh
-ARG HOME /home/$USER
+ARG HOME=/home/$USER
 
 # Tools
 RUN apk update \
