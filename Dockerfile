@@ -3,14 +3,12 @@
 FROM python:alpine
 
 # Defaults
+ARG USER=ed
 ARG UID=1000
-ARG GID=1000
-ARG USER=ed
 ARG GROUP=ed
-ARG USER=ed
+ARG GID=1000
 ARG SHELL=/bin/zsh
-
-ENV HOME /home/$USER
+ARG HOME /home/$USER
 
 # Tools
 RUN apk update \
