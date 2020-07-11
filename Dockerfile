@@ -42,19 +42,19 @@ RUN apk update \
     tree \
     the_silver_searcher
 
-# Crappy-ass bug in previous
+# Work around crappy-ass bug in released version.
 RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main sudo
 
 # oh-my-zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
     && CHSH=no RUNZSH=no sh omz-install.sh --unattended
 
-# my .dotfiles
-RUN git clone https://github.com/mindthump/dotfiles.git ~/.dotfiles \
+# my dotfiles without history (i.e., don't fix dotfile stuff here, and rebuild if they change).
+RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     && rm -f ~/.zshrc omz-install.sh \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
-# Preload vim plugins
+# Preload vim plugins. 'dive' says plugins waste space, but junegunn says :PlugUpdate would break if the history wasn't there.
 RUN vim +PlugInstall +qall > /dev/null
 
 WORKDIR $HOME
