@@ -40,8 +40,10 @@ RUN apk update \
     less \
     mc \
     tree \
-    sudo \
     the_silver_searcher
+
+# Crappy-ass bug in previous
+RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main sudo
 
 # oh-my-zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
