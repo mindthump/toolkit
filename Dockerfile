@@ -3,9 +3,9 @@
 FROM python:alpine
 
 # Defaults
-ARG USER=ed
+ARG USER=morty
 ARG UID=1000
-ARG GROUP=ed
+ARG GROUP=morty
 ARG GID=1000
 ARG SHELL=/bin/zsh
 ARG HOME=/home/$USER
