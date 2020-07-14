@@ -55,9 +55,12 @@ RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my
 # Configuration files from my GitHub repo (without git history)
 # See gnu "stow" docs and https://is.gd/CdR7Ua
 RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
-    # Remove some files created during setup, we have our own
+    # Remove some files created during setup, we have our own versions.
     && rm -f ~/.zshrc  ~/.profile omz-install.sh \
-    && stow --dir ~/.dotfiles --stow zsh vim byobu git
+    # Link the dotfiles to the home directory.
+    && stow --dir ~/.dotfiles --stow zsh vim byobu git \
+    # byobu is installed but don't auto-start it. Use 'byobu' to start manually.
+    && rm -f .zprofile
 
 # Preload vim plugins.
 RUN vim +PlugInstall +qall >> /tool-install.log

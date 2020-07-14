@@ -41,3 +41,7 @@ The added tools are things I like to have around for developing:
 Lots of other stuff (e.g. Perl) gets installed via dependencies.
 
 I `git clone` my `.dotfiles` and use `stow` to symbolic-link them to my home directory.
+
+#### byobu
+
+byobu gets installed, but not auto-started because it's not usually needed in the toolkit. (The dotfiles are for use anywhere, not just docker.) Use 'byobu' to launch it, or 'byobu-enable' if you intend to have the container to stick around and use "docker exec" to create new shells.
