@@ -1,7 +1,7 @@
 # Simple container with python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
 
 # Better than Alpine? See https://pythonspeed.com/articles/base-image-python-docker-images/
-FROM python:3.8-slim-buster
+FROM ubuntu:20.04
 
 # Defaults for the non-root user
 # Use --build-arg on build to override
@@ -45,6 +45,7 @@ RUN apt-get update \
     tree \
     silversearcher-ag \
     sudo \
+    ca-certificates \
     | tee /tool-install.log \
     && rm -rf /var/lib/apt/lists/*
 
