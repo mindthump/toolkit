@@ -47,9 +47,6 @@ RUN apt-get update \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Because I think this should be the default...
-RUN ln /usr/bin/python3.8 /usr/bin/python
-
 # Work around crappy-ass bug in released version.
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
