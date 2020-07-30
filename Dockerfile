@@ -44,11 +44,14 @@ RUN apk update \
     tree \
     the_silver_searcher \
     sudo \
-    | tee /tool-install.log \
     && rm -rf /var/lib/apt/lists/*
 
+# Because I think this should be the default...
+RUN ln /usr/bin/python3.8 /usr/bin/python
+
 # Work around crappy-ass bug in released version.
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main sudo
+# RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main sudo
+RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
 # Oh-My-Zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
@@ -57,12 +60,12 @@ RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my
 # Configuration files from my GitHub repo (without git history)
 # See gnu "stow" docs and https://is.gd/CdR7Ua
 RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
-    # Remove some files created during setup, we have our own
+    # Remove some files created during setup, we have our own versions.
     && rm -f ~/.zshrc  ~/.profile omz-install.sh \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
 # Preload vim plugins.
-RUN vim +PlugInstall +qall >> /tool-install.log
+RUN vim +PlugInstall +qall &> /dev/null
 
 WORKDIR $HOME
 # Copy the build context directory to WORKDIR
@@ -72,5 +75,4 @@ RUN chown -R "$UID:$GID" .
 
 USER $USER
 
-# Use '-e BYOBU-DISABLE' to avoid starting with tmux.
 ENTRYPOINT ["/bin/zsh"]
