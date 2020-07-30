@@ -44,6 +44,7 @@ RUN apk update \
     tree \
     the_silver_searcher \
     sudo \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Work around crappy-ass bug in released version.
