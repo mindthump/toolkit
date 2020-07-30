@@ -50,6 +50,9 @@ RUN apt-get update \
 # Because I think this should be the default...
 RUN ln /usr/bin/python3.8 /usr/bin/python
 
+# This is a bullshit bug in sudo.
+RUN echo "Set disable_coredump false" >> /etc/sudo.conf
+
 # Oh-My-Zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
     && CHSH=no RUNZSH=no sh omz-install.sh --unattended
