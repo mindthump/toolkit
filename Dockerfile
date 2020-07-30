@@ -34,6 +34,7 @@ RUN apt-get update \
     && apt-get install --yes --quiet --no-install-recommends --autoremove \
     git \
     curl \
+    wget \
     zsh \
     byobu \
     stow \
@@ -50,7 +51,7 @@ RUN apt-get update \
 # Because I think this should be the default...
 RUN ln /usr/bin/python3.8 /usr/bin/python
 
-# This is a bullshit bug in sudo.
+# Work around crappy-ass bug in released version.
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
 # Oh-My-Zsh
@@ -62,17 +63,14 @@ RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my
 RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     # Remove some files created during setup, we have our own versions.
     && rm -f ~/.zshrc  ~/.profile omz-install.sh \
-    # Link the dotfiles to the home directory.
-    && stow --dir ~/.dotfiles --stow zsh vim byobu git \
-    # byobu is installed but don't auto-start it. Use 'byobu' to start manually.
-    && rm -f .zprofile
+    && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
 # Preload vim plugins.
 RUN vim +PlugInstall +qall >> /tool-install.log
 
+WORKDIR $HOME
 # Copy the build context directory to WORKDIR
 # Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
-WORKDIR $HOME
 COPY . .
 RUN chown -R "$UID:$GID" .
 
