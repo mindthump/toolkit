@@ -1,6 +1,4 @@
-# Simple container with python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
-
-# Better than Alpine? See https://pythonspeed.com/articles/base-image-python-docker-images/
+# Python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
 FROM ubuntu:20.04
 
 # Defaults for the non-root user
@@ -49,6 +47,9 @@ RUN apt-get update \
     | tee /tool-install.log \
     && rm -rf /var/lib/apt/lists/*
 
+# Because I think this should be the default...
+RUN ln /usr/bin/python3.8 /usr/bin/python
+
 # Oh-My-Zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
     && CHSH=no RUNZSH=no sh omz-install.sh --unattended
@@ -74,5 +75,4 @@ RUN chown -R "$UID:$GID" .
 
 USER $USER
 
-# Use '-e BYOBU-DISABLE' to avoid starting with tmux.
 ENTRYPOINT ["/bin/zsh"]
