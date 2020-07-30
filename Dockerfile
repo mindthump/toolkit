@@ -46,11 +46,7 @@ RUN apk update \
     sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Because I think this should be the default...
-RUN ln /usr/bin/python3.8 /usr/bin/python
-
 # Work around crappy-ass bug in released version.
-# RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/main sudo
 RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
 # Oh-My-Zsh
