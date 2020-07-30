@@ -66,9 +66,9 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
 # Preload vim plugins.
 RUN vim +PlugInstall +qall >> /tool-install.log
 
-WORKDIR $HOME
 # Copy the build context directory to WORKDIR
 # Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
+WORKDIR $HOME
 COPY . .
 RUN chown -R "$UID:$GID" .
 

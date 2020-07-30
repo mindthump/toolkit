@@ -1,7 +1,9 @@
 # We don't want the working directory's git stuff to COPY into the image.
 # Add other files as needed.
 Dockerfile*
-LICENSE
-README.md
 .git/
 .dockerignore
+
+# These are OK now but maybe ignore them later.
+# LICENSE
+# README.md
