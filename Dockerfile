@@ -45,7 +45,6 @@ RUN apt-get update \
     silversearcher-ag \
     sudo \
     ca-certificates \
-    | tee /tool-install.log \
     && rm -rf /var/lib/apt/lists/*
 
 # Because I think this should be the default...
@@ -66,7 +65,7 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
 # Preload vim plugins.
-RUN vim +PlugInstall +qall >> /tool-install.log
+RUN vim +PlugInstall +qall &> /dev/null
 
 WORKDIR $HOME
 # Copy the build context directory to WORKDIR
