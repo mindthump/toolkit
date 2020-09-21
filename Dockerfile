@@ -38,12 +38,12 @@ RUN apt-get update \
     zsh \
     byobu \
     stow \
-    tmux \
     vim \
     less \
     tree \
     silversearcher-ag \
     sudo \
+    python3-pip \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
