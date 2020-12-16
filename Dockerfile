@@ -1,75 +1,83 @@
-# Python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
 FROM ubuntu:20.04
 
-# Defaults for the non-root user
-# Use --build-arg on build to override
-ARG USER=morty
+# Defaults for the non-root user; fix here or override with --build-arg during the image build
 ARG UID=1000
-ARG GROUP=$USER
 ARG GID=$UID
-ARG SHELL=/bin/zsh
+ARG USER=morty
+ARG GROUP=$USER
+ARG USER_SHELL=/bin/zsh
 ARG HOME=/home/$USER
 
-# Non-root login user
+# Non-root login user, way safer than letting it run as root (the default)
 RUN addgroup --gid $GID $GROUP \
     && adduser \
     --disabled-password \
     --gecos "" \
-    --shell "$SHELL" \
+    --shell "$USER_SHELL" \
     --home "$HOME" \
     --ingroup "$GROUP" \
     --uid "$UID" "$USER"
 
-# Passwordless superuser
+# Set up the non-root user as a passwordless superuser
+##   Also work around crappy-ass bug in sudo. This might go away at some point.
 RUN mkdir -p /etc/sudoers.d \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER
+    && chmod 0440 /etc/sudoers.d/$USER \
+    && echo "Set disable_coredump false" >> /etc/sudo.conf
 
-# Tools, omz, and dotfiles.
-# Note -- layers will not update if underlying packages
-# have changed; use --no-cached on build to update
+# Basic tools 
+## This all executes as one RUN command so package metadata doesn't get cached in image layers
+## Note -- layers will not update if underlying packages have changed; use --no-cached on build to update
+## See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#run for details
 
-# My favorite command line tools
-RUN apt-get update \
-    && apt-get install --yes --quiet --no-install-recommends --autoremove \
-    git \
-    curl \
-    wget \
-    zsh \
-    byobu \
-    stow \
-    vim \
-    less \
-    tree \
-    silversearcher-ag \
-    sudo \
-    python3-pip \
-    ca-certificates \
+# Prevent cmake install from asking for default timezone
+RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
+    build-essential cmake \
+    python3 python3-pip python3-pytest \
+    zip curl git \
     && rm -rf /var/lib/apt/lists/*
 
-# Work around crappy-ass bug in released version.
-RUN echo "Set disable_coredump false" >> /etc/sudo.conf
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv EJC STUFF / OPTIONAL
 
-# Oh-My-Zsh
+## My favorite command line tools, delete what you don't want or need. If you don't
+##   install zsh, fix the $USER_SHELL variable default above and the CMD at the
+##   bottom of this file.
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
+    wget zsh byobu stow vim less tree mc silversearcher-ag sudo ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+## Oh-My-Zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
     && CHSH=no RUNZSH=no sh omz-install.sh --unattended
 
-# Configuration files from my GitHub repo (without git history)
-# See gnu "stow" docs and https://is.gd/CdR7Ua
+## Configuration files from my GitHub repo (without git history), see gnu "stow" docs and https://is.gd/CdR7Ua
 RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
-    # Remove some files created during setup, we have our own versions.
+    ### Remove some files created during setup, we have our own versions.
     && rm -f ~/.zshrc  ~/.profile omz-install.sh \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
-# Preload vim plugins.
+## Preload vim plugins.
 RUN vim +PlugInstall +qall &> /dev/null
 
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ EJC STUFF / OPTIONAL
+
 WORKDIR $HOME
+
 # Copy the build context directory to WORKDIR
-# Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
+##   Check the .dockerignore file for exclusions (.git, artifacts, etc.).
 COPY . .
 RUN chown -R "$UID:$GID" .
 
 USER $USER
 
-ENTRYPOINT ["/bin/zsh"]
+# Script to do the actual project builds. Override with --entrypoint on the 'docker run' command line.
+ENTRYPOINT ["./entrypoint.sh"]
+## Note that you can't easily use variables like $USER_SHELL in the CMD without
+##   adding an extra shell layer, which is why it's hard-coded. The CMD
+##   gets exec'd at the end of the entrypoint script.
+CMD ["/bin/zsh"]
