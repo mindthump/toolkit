@@ -1,8 +1,7 @@
-# Python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
+# Python with some basic tools: vim, bash, etc.
 FROM python:alpine
 
-# Defaults for the non-root user
-# Use --build-arg on build to override
+# Defaults for the non-root user (use --build-arg on build to override)
 ARG USER=morty
 ARG UID=1000
 ARG GROUP=$USER
@@ -10,22 +9,13 @@ ARG GID=$UID
 ARG SHELL=/bin/bash
 ARG HOME=/home/$USER
 
-# Non-root login user
-RUN addgroup --gid $GID $GROUP \
-    && adduser \
-    --disabled-password \
-    --gecos "" \
-    --shell "$SHELL" \
-    --home "$HOME" \
-    --ingroup "$GROUP" \
-    --uid "$UID" "$USER"
-
-# Passwordless superuser
-RUN mkdir -p /etc/sudoers.d \
+# Non-root passwordless superuser
+RUN \
+    addgroup --gid $GID $GROUP \
+    && adduser --disabled-password --gecos "" --shell "$SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" \
+    && mkdir -p /etc/sudoers.d \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
     && chmod 0440 /etc/sudoers.d/$USER
-
-# Tools
 
 # My favorite command line tools
 RUN apk update \
@@ -35,18 +25,18 @@ RUN apk update \
     vim \
     less \
     tree \
+    mc \
     the_silver_searcher \
     sudo \
     && rm -rf /var/lib/apt/lists/*
-
-# Work around crappy-ass bug in released version.
-RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
 WORKDIR $HOME
 
 # Copy the build context directory to WORKDIR
 # Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
 COPY . .
+
+RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt
 
 RUN chown -R "$UID:$GID" .
 
