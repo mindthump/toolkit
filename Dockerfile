@@ -48,7 +48,7 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    wget zsh byobu stow vim less tree mc silversearcher-ag sudo ca-certificates \
+    wget zsh byobu stow vim less tree psmisc mc silversearcher-ag sudo ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 ## Oh-My-Zsh
