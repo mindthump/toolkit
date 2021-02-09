@@ -1,4 +1,4 @@
-# Python, zsh + oh-my-zsh, some tools, and my personal dotfile setup.
+# Very small footprint with some basic tools installed, and a non-root user ("morty") with paswordless sudo.
 FROM python:alpine
 
 # Defaults for the non-root user
@@ -32,6 +32,7 @@ RUN apk update \
     && apk add --no-cache \
     bash \
     wget \
+    curl \
     vim \
     less \
     tree \
@@ -45,7 +46,7 @@ RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 WORKDIR $HOME
 
 # Copy the build context directory to WORKDIR
-# Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
+# Use the .dockerignore file for exclusions (.git, Dockerfile, etc.).
 COPY . .
 
 RUN chown -R "$UID:$GID" .
