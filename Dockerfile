@@ -30,15 +30,8 @@ RUN mkdir -p /etc/sudoers.d \
 ## Note -- layers will not update if underlying packages have changed; use --no-cached on build to update
 ## See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#run for details
 
-# Prevent cmake install from asking for default timezone
+# Set default timezone
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    build-essential cmake \
-    python3 python3-pip python3-pytest \
-    zip curl git \
-    && rm -rf /var/lib/apt/lists/*
 
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv EJC STUFF / OPTIONAL
 
@@ -48,6 +41,8 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
+    python3 python3-pip python3-pytest \
+    zip curl git \
     wget zsh byobu stow vim less tree psmisc mc silversearcher-ag sudo ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
