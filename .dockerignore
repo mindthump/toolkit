@@ -2,8 +2,4 @@
 # Add other files as needed.
 .git/
 .dockerignore
-
-# Leave these in for now
-# Dockerfile
-# LICENSE
-# README.md
+Dockerfile

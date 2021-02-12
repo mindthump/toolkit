@@ -35,11 +35,12 @@ WORKDIR $HOME
 # Copy the build context directory to WORKDIR
 # Check the .dockerignore file for exclusions (.git, Dockerfile, etc.).
 COPY . .
-
-RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt
-
 RUN chown -R "$UID:$GID" .
 
 USER $USER
 
+# Script to do container startup stuff. This idiom allows us to alter the startup
+# script without rebuilding the image. The CMD gets exec'd at the end of the script.
+# Either can be overridden on the "docker run" command.
+ENTRYPOINT ["./.startup/entrypoint.sh"]
 CMD ["/bin/bash"]
