@@ -22,34 +22,24 @@ RUN addgroup --gid $GID $GROUP \
 # Passwordless superuser
 RUN mkdir -p /etc/sudoers.d \
     && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER
+    && chmod 0440 /etc/sudoers.d/$USER \
+    && echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
 # Tools
 
 # My favorite command line tools
 RUN apk update \
     && apk add --no-cache \
-    bash \
-    wget \
-    curl \
-    vim \
-    less \
-    tree \
-    the_silver_searcher \
-    sudo \
+    bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo \
     && rm -rf /var/lib/apt/lists/*
-
-# Work around crappy-ass bug in released version.
-RUN echo "Set disable_coredump false" >> /etc/sudo.conf
 
 WORKDIR $HOME
 
-# Copy the build context directory to WORKDIR
-# Use the .dockerignore file for exclusions (.git, Dockerfile, etc.).
+# Copy the build context directory to WORKDIR; use the .dockerignore file for exclusions (.git, Dockerfile, etc.).
 COPY . .
-
 RUN chown -R "$UID:$GID" .
 
 USER $USER
 
+ENTRYPOINT ["./.entrypoint.sh"]
 CMD ["/bin/bash"]
