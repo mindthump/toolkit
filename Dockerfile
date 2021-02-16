@@ -1,13 +1,12 @@
 # Very small footprint with some basic tools installed, and a non-root user ("morty") with paswordless sudo.
 FROM python:alpine
 
-# Defaults for the non-root user
-# Use --build-arg on build to override
-ARG USER=morty
+# Defaults for the non-root user; fix here or override with --build-arg during the image build
 ARG UID=1000
-ARG GROUP=$USER
 ARG GID=$UID
-ARG SHELL=/bin/bash
+ARG USER=morty
+ARG GROUP=$USER
+ARG USER_SHELL=/bin/bash
 ARG HOME=/home/$USER
 
 # Non-root login user
@@ -15,7 +14,7 @@ RUN addgroup --gid $GID $GROUP \
     && adduser \
     --disabled-password \
     --gecos "" \
-    --shell "$SHELL" \
+    --shell "$USER_SHELL" \
     --home "$HOME" \
     --ingroup "$GROUP" \
     --uid "$UID" "$USER"
