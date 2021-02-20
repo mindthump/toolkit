@@ -1,3 +1,4 @@
+# Larger footprint utility image. See 'alpine' branch for the smaller one.
 FROM ubuntu:20.04
 
 # Defaults for the non-root user.
