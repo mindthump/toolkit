@@ -23,6 +23,10 @@ RUN apk update \
     bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc ncdu \
     && rm -rf /var/lib/apt/lists/*
 
+# Set default timezone & link python
+RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
+    ln -s /usr/bin/python3 /usr/bin/python
+
 WORKDIR $HOME
 
 COPY . .
