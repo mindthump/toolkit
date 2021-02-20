@@ -20,7 +20,7 @@ RUN addgroup --gid $GID $GROUP && \
 # My favorite command line tools
 RUN apk update \
     && apk add --no-cache \
-    bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc | tee tool_install.log \
+    bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc ncdu \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR $HOME
@@ -31,5 +31,5 @@ RUN chown -R "$UID:$GID" .
 USER $USER
 
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
-ENTRYPOINT ["./.startup/entrypoint.sh"]
+ENTRYPOINT ["./.entrypoint.sh"]
 CMD ["/bin/bash"]

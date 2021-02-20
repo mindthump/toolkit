@@ -10,18 +10,8 @@ There are two branches. alpine (this branch) is very basic but useful for certai
 
 ## User
 
-This adds a new non-root passwordless superuser (default 'morty') to the image. You can edit the Dockerfile defaults or use `--build-arg` on the build.
-The ARGS include `USER`, `GROUP`, `UID`, `GID`, and `SHELL`.
+This adds a new non-root passwordless superuser (default 'morty') to the image. You can edit the Dockerfile defaults or use `--build-arg`.
 
 ## Tools
 
-The added tools are things I like to have around for developing:
-
-* `bash`
-* `less`
-* `wget`
-* `vim`
-* `tree`
-* `mc`
-* `the_silver_searcher`, a.k.a. `ag`
-* `sudo`
+The added tools are things I like to have around for developing such as bash, less, wget, vim, tree, mc, silver searcher, sudo, etc. See the Dockerfile for the current list of tools.
