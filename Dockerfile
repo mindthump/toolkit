@@ -8,22 +8,13 @@ ARG GROUP=$USER
 ARG USER_SHELL=/bin/zsh
 ARG HOME=/home/$USER
 
-# Non-root login user, way safer than letting it run as root (the default).
-RUN addgroup --gid $GID $GROUP \
-    && adduser \
-    --disabled-password \
-    --gecos "" \
-    --shell "$USER_SHELL" \
-    --home "$HOME" \
-    --ingroup "$GROUP" \
-    --uid "$UID" "$USER"
-
-# Set up the non-root user as a passwordless superuser
-##   Also work around crappy-ass bug in sudo. This might go away at some point.
-RUN mkdir -p /etc/sudoers.d \
-    && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
-    && chmod 0440 /etc/sudoers.d/$USER \
-    && echo "Set disable_coredump false" >> /etc/sudo.conf
+# Non-root login user with passwordless sudo
+RUN addgroup --gid $GID $GROUP && \
+    adduser --disabled-password --gecos "" --shell "$USER_SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" && \
+    mkdir -p /etc/sudoers.d && \
+    echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
+    chmod 0440 /etc/sudoers.d/$USER && \
+    echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
 # Set default timezone & link python
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
