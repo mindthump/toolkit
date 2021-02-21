@@ -20,8 +20,7 @@ RUN addgroup --gid $GID $GROUP && \
 # My favorite command line tools
 RUN apk update \
     && apk add --no-cache \
-    bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc ncdu \
-    && rm -rf /var/lib/apt/lists/*
+    bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc ncdu
 
 # Set default timezone & link python
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
