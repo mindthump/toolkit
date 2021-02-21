@@ -17,10 +17,6 @@ RUN addgroup --gid $GID $GROUP && \
     chmod 0440 /etc/sudoers.d/$USER && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
-# Set default timezone & link python
-RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
-    ln -s /usr/bin/python3 /usr/bin/python
-
 ## zsh and useful command line tools, delete what you don't want or need.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
@@ -39,6 +35,10 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
 
 ## Preload vim plugins.
 RUN vim +PlugInstall +qall &> /dev/null
+
+# Set default timezone & link python
+RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 WORKDIR $HOME
 
