@@ -47,5 +47,6 @@ RUN chown -R "$UID:$GID" .
 
 USER $USER
 
+# Script to do container startup stuff. CMD gets exec'd at the end of the script.
 ENTRYPOINT ["/usr/bin/tini", "--", "./entrypoint.sh"]
 CMD ["/bin/zsh"]
