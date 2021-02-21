@@ -1,7 +1,7 @@
-# Larger footprint utility image. See 'alpine' branch for the smaller one.
+# Larger footprint image with some basic tools and a non-root user ("morty") with a home and paswordless sudo.
 FROM ubuntu:20.04
 
-# Defaults for the non-root user.
+# Defaults for the non-root user
 ARG UID=1000
 ARG GID=$UID
 ARG USER=morty
@@ -48,5 +48,5 @@ RUN chown -R "$UID:$GID" .
 USER $USER
 
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
-ENTRYPOINT ["/usr/bin/tini", "--", "./entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "./.entrypoint.sh"]
 CMD ["/bin/zsh"]
