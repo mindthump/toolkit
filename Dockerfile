@@ -18,8 +18,8 @@ RUN addgroup --gid $GID $GROUP && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
 # My favorite command line tools
-RUN apk update \
-    && apk add --no-cache \
+RUN apk update && \
+    apk add --no-cache \
     bash zip wget curl vim less tree mc psmisc byobu tmux the_silver_searcher sudo py3-pip mc ncdu
 
 # Set default timezone & link python
