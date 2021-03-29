@@ -19,7 +19,7 @@ RUN addgroup --gid $GID $GROUP && \
     chmod 0440 /etc/sudoers.d/$USER && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
-# Line 24 tools are pretty fundamental. Line 25 tools help me explore the system and make the terminal nicer and easier to use (IMO).
+# Line 25 tools are pretty fundamental. Line 26 tools help me explore the system and make the terminal nicer and easier to use (IMO).
 RUN apk update && \
     apk add --no-cache \
     bash zip wget vim less psmisc sudo py3-pip \
