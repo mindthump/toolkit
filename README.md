@@ -1,4 +1,4 @@
-# toolkit
+# mindthump's docker toolkit
 
 A Dockerfile and other stuff to quickly create a smallish container for utility work. This is totally specific to me. If you have suggestions on how I do things, please send them; if it's about what I include, don't.
 
