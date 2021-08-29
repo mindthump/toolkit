@@ -1,7 +1,7 @@
-import pudb
+# import pudb
 
 foo = 123
 bar = "splunge"
-pu.db
+# pu.db
 baz = "Variables: {} and {}".format(foo, bar)
 print(baz)
