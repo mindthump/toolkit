@@ -1,6 +1,6 @@
-# Some basic tools and a non-root user ("morty") with a home and paswordless sudo. It is not tiny like the basic alpine image, but it's not massive either.
-# Modify lines 25/26, entrypoint.sh, requirements.txt, and .config/* as desired.
-# NOTE: I use this for python development so I include the 'pudb' console debugger (https://pypi.org/project/pudb/).
+# Some basic tools and a non-root user ("morty") with a home and paswordless sudo.
+# It is not tiny like the basic alpine image, but it's not massive either.
+# Modify TOOLS section, entrypoint.sh, requirements.txt, .coderfile and .config/* as desired.
 FROM alpine:3.13.2
 
 # Defaults for the non-root user
@@ -19,7 +19,7 @@ RUN addgroup --gid $GID $GROUP && \
     chmod 0440 /etc/sudoers.d/$USER && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
-# Line 25 tools are pretty fundamental. Line 26 tools help me explore the system and make the terminal nicer and easier to use (IMO).
+# TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 RUN apk update && \
     apk add --no-cache \
     bash zip wget vim less psmisc sudo py3-pip \
