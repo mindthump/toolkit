@@ -1,13 +1,11 @@
 final String gandalfQuote = 'Do not meddle in the affairs of Wizards...'
 
 pipeline {
-//  agent {
-//    kubernetes {
-//      cloud 'openshift'
-//      label "${UUID.randomUUID().toString()}"
-//      yaml generatePodSpec()
-//    }
-//  }
+  agent {
+    kubernetes {
+      label "${UUID.randomUUID().toString()}"
+    }
+  }
 
   options {
     timeout(time: 60, unit: 'MINUTES')
