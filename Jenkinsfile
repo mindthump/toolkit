@@ -13,9 +13,11 @@ pipeline {
           containers:
           - name: alpine
             image: alpine
-            command: ["/bin/bash"]
-            args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+            command: ["/bin/sh"]
+            args: ["-c", "trap : TERM INT; sleep 9999d & wait"]
             tty: true
+            imagePullPolicy: IfNotPresent
+          restartPolicy: Always
         '''
     }
   }
