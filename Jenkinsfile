@@ -3,7 +3,20 @@ final String gandalfQuote = 'Do not meddle in the affairs of Wizards...'
 pipeline {
   agent {
     kubernetes {
-      label "${UUID.randomUUID().toString()}"
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            foobar: splunge
+        spec:
+          containers:
+          - name: alpine
+            image: alpine
+            command: ["/bin/bash"]
+            args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+            tty: true
+        '''
     }
   }
 
