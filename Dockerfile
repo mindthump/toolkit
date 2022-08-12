@@ -23,7 +23,8 @@ RUN addgroup --gid $GID $GROUP && \
 RUN apk update && \
     apk add --no-cache \
     bash zip wget vim less psmisc sudo py3-pip \
-    tree mc the_silver_searcher ncdu byobu tmux 
+    tree mc the_silver_searcher ncdu byobu tmux \
+    fzf fd
 
 # Set default timezone (alter as needed) & make python3 the default
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
