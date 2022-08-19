@@ -20,7 +20,7 @@ RUN addgroup --gid $GID $GROUP && \
 ## zsh and useful command line tools, delete what you don't want or need.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip curl git wget zsh byobu stow vim less tree ytree ncdu psmisc mc silversearcher-ag sudo ca-certificates \
+    tini zip curl git wget zsh byobu stow vim less tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 ## Oh-My-Zsh
