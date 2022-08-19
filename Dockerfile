@@ -20,8 +20,7 @@ RUN addgroup --gid $GID $GROUP && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
-RUN apk update && \
-    apk add --no-cache \
+RUN apk add --no-cache \
     bash zip wget vim less psmisc sudo py3-pip \
     tree mc the_silver_searcher ncdu byobu tmux \
     fzf fd bat
