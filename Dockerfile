@@ -1,7 +1,7 @@
 # Some basic tools and a non-root user ("morty") with a home and paswordless sudo.
 # It is not tiny like the basic alpine image, but it's not massive either.
 # Modify TOOLS section, entrypoint.sh, requirements.txt, .coderfile and .config/* as desired.
-FROM alpine:3.13.2
+FROM alpine:latest
 
 # Defaults for the non-root user
 ARG UID=1000
@@ -24,7 +24,7 @@ RUN apk update && \
     apk add --no-cache \
     bash zip wget vim less psmisc sudo py3-pip \
     tree mc the_silver_searcher ncdu byobu tmux \
-    fzf fd
+    fzf fd bat
 
 # Set default timezone (alter as needed) & make python3 the default
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
