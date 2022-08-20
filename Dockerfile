@@ -1,5 +1,5 @@
 # Larger footprint image with some basic tools and a non-root user ("morty") with a home and paswordless sudo.
-FROM ubuntu:20.04
+FROM ubuntu:jammy
 
 # Defaults for the non-root user
 ARG UID=1000
@@ -9,6 +9,12 @@ ARG GROUP=$USER
 ARG USER_SHELL=/bin/zsh
 ARG HOME=/home/$USER
 
+## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
+RUN apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
+    tini zip curl git wget zsh byobu stow vim less bat tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
+    && apt clean && rm -rf /var/lib/apt/lists/*
+
 # Non-root login user with passwordless sudo
 RUN addgroup --gid $GID $GROUP && \
     adduser --disabled-password --gecos "" --shell "$USER_SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" && \
@@ -16,12 +22,6 @@ RUN addgroup --gid $GID $GROUP && \
     echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
     echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
-
-## zsh and useful command line tools, delete what you don't want or need.
-RUN apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip curl git wget zsh byobu stow vim less tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
-    && apt clean && rm -rf /var/lib/apt/lists/*
 
 ## Oh-My-Zsh
 RUN curl -Lo omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh \
@@ -36,9 +36,10 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
 ## Preload vim plugins.
 RUN vim +PlugInstall +qall &> /dev/null
 
-# Set default timezone & link python
+# Set default timezone, link python and bat
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
-    ln -s /usr/bin/python3 /usr/bin/python
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    ln -s /usr/bin/batcat /usr/bin/bat
 
 WORKDIR $HOME
 
