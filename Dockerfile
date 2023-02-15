@@ -12,7 +12,7 @@ ARG HOME=/home/$USER
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip curl git wget zsh byobu stow vim less bat tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
+    tini zip curl git wget zsh byobu stow neovim less bat tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
@@ -34,7 +34,8 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
 ## Preload vim plugins.
-RUN vim +PlugInstall +qall &> /dev/null
+# RUN vim +PlugInstall +qall &> /dev/null
+RUN vim +PlugInstall +qall
 
 # Set default timezone, link python and bat
 RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
