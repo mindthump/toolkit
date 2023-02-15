@@ -4,3 +4,5 @@
 .dockerignore
 .DS_Store
 Dockerfile
+.idea/
+.gitignore
