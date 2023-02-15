@@ -26,8 +26,9 @@ RUN apk add --no-cache \
     fzf fd bat
 
 # Set default timezone (alter as needed) & make python3 the default
-RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
-    ln -s /usr/bin/python3 /usr/bin/python
+# RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
+#     ln -s /usr/bin/python3 /usr/bin/python
+RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
 WORKDIR $HOME
 
@@ -35,6 +36,10 @@ COPY . .
 RUN chown -R "$UID:$GID" .
 
 USER $USER
+
+RUN python -m venv venv && source venv/bin/activate && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r ./requirements.txt
 
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
 ENTRYPOINT ["./entrypoint.sh"]

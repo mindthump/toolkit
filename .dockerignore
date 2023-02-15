@@ -4,3 +4,4 @@
 .dockerignore
 Dockerfile
 .DS_Store
+.idea
