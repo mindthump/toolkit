@@ -12,7 +12,8 @@ ARG HOME=/home/$USER
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip curl git wget zsh byobu stow neovim less bat tree ytree ncdu psmisc mc silversearcher-ag fzf fd-find sudo ca-certificates \
+    tini zip curl git wget zsh byobu stow neovim less bat tree ytree httpie \
+    ncdu psmisc mc silversearcher-ag sudo ca-certificates \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
