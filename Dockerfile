@@ -21,7 +21,7 @@ RUN addgroup --gid $GID $GROUP && \
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 RUN apk add --no-cache \
-    bash zip wget vim less psmisc sudo py3-pip \
+    bash zip wget vim less psmisc sudo py3-pip httpie \
     tree mc the_silver_searcher ncdu byobu tmux \
     fzf fd bat
 
