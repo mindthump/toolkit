@@ -21,9 +21,9 @@ RUN addgroup --gid $GID $GROUP && \
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 RUN apk add --no-cache \
-    bash zip wget vim less psmisc sudo py3-pip httpie \
+    bash zip wget vim neovim less psmisc sudo py3-pip httpie \
     tree mc the_silver_searcher ncdu byobu tmux \
-    fzf fd bat
+    fd bat tini
 
 # Set default timezone (alter as needed) & make python3 the default
 # RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
@@ -42,5 +42,5 @@ RUN python -m venv venv && source venv/bin/activate && \
     pip install --no-cache-dir -r ./requirements.txt
 
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["tini", "--", "./entrypoint.sh"]
 CMD ["/bin/bash"]
