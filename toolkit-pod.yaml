@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toolkit-pod
+  namespace: devops-tools
+  labels:
+    app: toolkit
+spec:
+  containers:
+    - name: toolkit-container
+      image: mindthump/toolkit:main
+      imagePullPolicy: Never
+      command:
+        - sleep
+      args:
+        - 1d

@@ -35,7 +35,6 @@ RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git
 
 ## Preload vim plugins.
-# RUN vim +PlugInstall +qall &> /dev/null
 RUN vim +PlugInstall +qall
 
 # Set default timezone, link python and bat
