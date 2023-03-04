@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: toolkit-container
-      image: mindthump/toolkit:main
+      image: mindthump/toolkit:k8s
       imagePullPolicy: Never
       command: ["/bin/bash"]
       args: ["-c", "trap : TERM INT; sleep infinity & wait"]
