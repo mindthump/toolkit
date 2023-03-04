@@ -1,0 +1,3 @@
+echo 'Customizing for kubectl...'
+source <(kubectl completion zsh)
+kubectl config set-cluster rancher-desktop --server=https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}
