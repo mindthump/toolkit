@@ -9,11 +9,18 @@ ARG GROUP=$USER
 ARG USER_SHELL=/bin/zsh
 ARG HOME=/home/$USER
 
+# Needs curl and some apt sources to get ready for kubectl
+RUN apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
+    curl ca-certificates 
+RUN curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip curl git wget zsh byobu stow neovim less bat tree ytree httpie \
-    ncdu psmisc mc silversearcher-ag sudo ca-certificates \
+    tini zip git wget zsh byobu stow neovim less bat tree ytree httpie \
+    ncdu psmisc mc silversearcher-ag sudo python3.10-venv kubectl \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
@@ -45,10 +52,16 @@ RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
 WORKDIR $HOME
 
 COPY . .
+
+# Set up a virtual python environment to isolate packages, etc.
+RUN python -m venv $HOME/venv && . $HOME/venv/bin/activate
+
 RUN chown -R "$UID:$GID" .
 
 USER $USER
 
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
-ENTRYPOINT ["/usr/bin/tini", "--", "./.entrypoint.sh"]
+# If this is in a pod defn with command: and args: it is ignored
+# It's also ignored on exec'ing into pod
+ENTRYPOINT ["/usr/bin/tini", "--", "./entrypoint.sh"]
 CMD ["/bin/zsh"]

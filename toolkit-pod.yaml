@@ -10,7 +10,5 @@ spec:
     - name: toolkit-container
       image: mindthump/toolkit:main
       imagePullPolicy: Never
-      command:
-        - sleep
-      args:
-        - 1d
+      command: ["/bin/bash"]
+      args: ["-c", "trap : TERM INT; sleep infinity & wait"]
