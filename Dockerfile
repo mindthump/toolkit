@@ -20,7 +20,7 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
     tini zip git wget zsh byobu stow neovim less bat tree ytree httpie \
-    ncdu psmisc mc silversearcher-ag sudo python3.10-venv kubectl \
+    ncdu psmisc mc silversearcher-ag sudo python3.10-venv kubectl buildah \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
