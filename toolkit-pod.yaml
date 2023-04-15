@@ -8,6 +8,6 @@ spec:
   containers:
     - name: toolkit-container
       image: mindthump/toolkit:k8s
-      imagePullPolicy: Never
+      imagePullPolicy: IfNotPresent
       command: ["/bin/bash"]
       args: ["-c", "trap : TERM INT; sleep infinity & wait"]
