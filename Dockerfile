@@ -1,25 +1,17 @@
-# Larger footprint image with some basic tools and a non-root user ("morty") with a home and paswordless sudo.
+# Larger footprint image with some basic tools and a non-root user with a home and paswordless sudo.
 FROM ubuntu:jammy
-
-# Needs curl and some apt sources to get ready for kubectl
-RUN apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    curl ca-certificates  \
-    && apt clean && rm -rf /var/lib/apt/lists/*
-RUN curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-RUN echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip git wget zsh byobu stow neovim less bat tree ytree httpie \
-    ncdu psmisc mc silversearcher-ag sudo python3.10-venv kubectl buildah \
+    tini zip git curl ca-certificates wget zsh byobu stow neovim less bat tree ytree httpie \
+    ncdu psmisc mc silversearcher-ag sudo \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
 ARG UID=1000
 ARG GID=$UID
-ARG USER=morty
+ARG USER=rsanchez
 ARG GROUP=$USER
 ARG USER_SHELL=/bin/zsh
 ARG HOME=/home/$USER
@@ -53,12 +45,6 @@ RUN sudo ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
     sudo ln -s /usr/bin/batcat /usr/bin/bat
 
 COPY . .
-
-# Set up a virtual python environment to isolate packages, etc.
-############  DO I REALLY NEED THIS ??? ###################
-#### Just use `sudo pip install` -- it's a container !!!
-#### What about poetry?
-RUN python -m venv $HOME/venv && . $HOME/venv/bin/activate
 
 # RUN chown -R "$UID:$GID" .
 
