@@ -1,7 +1,0 @@
-# We don't want the working directory's git stuff to COPY into the image.
-# Add other files as needed.
-.git/
-.dockerignore
-Dockerfile
-.DS_Store
-.idea

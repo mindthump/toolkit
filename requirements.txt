@@ -1,3 +1,0 @@
-# pudb
-requests
-httpie
