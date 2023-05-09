@@ -4,4 +4,6 @@
 .dockerignore
 Dockerfile
 .DS_Store
-.idea
+.idea/
+.vagrant/
+*.log

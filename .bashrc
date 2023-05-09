@@ -1,4 +1,4 @@
-# Setup some environment variables.
+## Setup some environment variables.
 umask 002
 export HISTSIZE=1000
 export HISTIGNORE="&:[bf]g:exit"

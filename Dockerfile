@@ -1,6 +1,5 @@
 # Some basic tools and a non-root user ("morty") with a home and paswordless sudo.
-# It is not tiny like the basic alpine image, but it's not massive either.
-# Modify TOOLS section, entrypoint.sh, requirements.txt, .coderfile and .config/* as desired.
+# Modify $TOOLS, etc. as desired.
 FROM alpine:latest
 
 # Defaults for the non-root user
@@ -12,23 +11,17 @@ ARG USER_SHELL=/bin/bash
 ARG HOME=/home/$USER
 
 # Non-root login user with passwordless sudo
-RUN addgroup --gid $GID $GROUP && \
-    adduser --disabled-password --gecos "" --shell "$USER_SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" && \
-    mkdir -p /etc/sudoers.d && \
-    echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
-    chmod 0440 /etc/sudoers.d/$USER && \
-    echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
+RUN addgroup --gid $GID $GROUP \
+&& adduser --disabled-password --gecos "" --shell "$USER_SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" \
+&& mkdir -p /etc/sudoers.d \
+&& echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
+&& chmod 0440 /etc/sudoers.d/$USER \
+&& echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
-RUN apk add --no-cache \
-    bash zip wget vim neovim less psmisc sudo py3-pip httpie \
-    tree mc the_silver_searcher ncdu byobu tmux \
-    fd bat tini
-
-# Set default timezone (alter as needed) & make python3 the default
-# RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime && \
-#     ln -s /usr/bin/python3 /usr/bin/python
-RUN ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+ENV TOOLS='bash zip wget neovim bat psmisc sudo tree mc the_silver_searcher ncdu tmux tini'
+RUN apk add --no-cache $TOOLS \
+&& ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
 WORKDIR $HOME
 
@@ -37,10 +30,6 @@ RUN chown -R "$UID:$GID" .
 
 USER $USER
 
-RUN python -m venv venv && source venv/bin/activate && \
-    pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r ./requirements.txt
-
 # Script to do container startup stuff. CMD gets exec'd at the end of the script.
-ENTRYPOINT ["tini", "--", "./entrypoint.sh"]
-CMD ["/bin/bash"]
+ENTRYPOINT ["tini", "--", "./.entrypoint.sh"]
+CMD ["/usr/bin/tmux"]
