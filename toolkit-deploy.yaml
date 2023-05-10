@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: toolkit-app
+  name: toolkit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: toolkit-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: toolkit-app
+    spec:
+      containers:
+      - name: toolkit-container
+        image: mindthump/toolkit:alpine
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash"]
+        args: ["-c", "trap : TERM INT; sleep infinity & wait"]
