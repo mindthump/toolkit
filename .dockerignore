@@ -6,3 +6,4 @@
 Dockerfile
 .idea/
 .gitignore
+.vagrant
