@@ -1,4 +1,4 @@
-# We don't want the working directory's git stuff to COPY into the image.
+# We don't want the working directory's git and other stuff to COPY into the image.
 # Add other files as needed.
 .git/
 .dockerignore
@@ -7,3 +7,5 @@ Dockerfile
 .idea/
 .vagrant/
 *.log
+# We may want these in the future, but now it's kinda noise.
+toolkit-*.yaml

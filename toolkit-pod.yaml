@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toolkit-pod
+  labels:
+    app: toolkit
+spec:
+  containers:
+    - name: toolkit-container
+      image: mindthump/toolkit:alpine
+      imagePullPolicy: Always
+      command: ["/bin/bash"]
+      args: ["-c", "trap : TERM INT; sleep infinity & wait"]
