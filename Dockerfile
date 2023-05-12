@@ -38,8 +38,7 @@ RUN wget -O omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-
 ## Configuration files from my GitHub repo (without git history), see gnu "stow" docs and https://is.gd/CdR7Ua
 RUN git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles \
     && stow --dir ~/.dotfiles --stow zsh vim byobu git \
-    # Replacing keybinding with a custom file from the COPY to prevent prefix key conflict
-    # && mv ~/keybindings.tmux ~/.dotfiles/byobu/.byobu/keybindings.tmux \
+    # Replacing byobu's tmux.conf to prevent prefix key conflict (^A vs ^B) with host
     && mv ~/tmux.conf ~/.byobu/.tmux.conf
 
 ## Preload vim plugins.

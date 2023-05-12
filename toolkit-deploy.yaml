@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: toolkit-container
-        image: mindthump/toolkit:main
-        imagePullPolicy: IfNotPresent
+        image: docker.io/mindthump/toolkit:main
+        imagePullPolicy: Always
         command: ["/bin/bash"]
         args: ["-c", "trap : TERM INT; sleep infinity & wait"]
