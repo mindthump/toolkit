@@ -6,7 +6,7 @@ A Dockerfile and other stuff to quickly create a smallish container for utility 
 
 The Dockerfile copies the context directory on build so you can drop the Dockerfile into a directory and build a container with necessary files (except .dockerignore of course). One use-case is mounting a volume to work on without disturbing the host. It should also be usable as a kubernetes ephemeral pod:
 
-```kubectl debug foo --image=mindthump/toolkit:alpine --target=wonky_container```
+```kubectl debug wonky_pod --image=mindthump/toolkit:alpine --target=wonky_container```
 
 ## Dockerfile
 

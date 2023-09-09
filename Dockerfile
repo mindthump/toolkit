@@ -20,7 +20,10 @@ RUN addgroup --gid $GID $GROUP \
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 ENV TOOLS='bash zip wget neovim bat psmisc sudo tree mc the_silver_searcher ncdu tmux tini'
-RUN apk add --no-cache $TOOLS \
+ENV NET_TOOLS='nmap iproute2 bind-tools net-tools'
+
+RUN apk update \
+&& apk add --no-cache ${TOOLS} ${NET_TOOLS} \
 && ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
 WORKDIR $HOME
