@@ -15,8 +15,7 @@ RUN addgroup --gid $GID $GROUP \
 && adduser --disabled-password --gecos "" --shell "$USER_SHELL" --home "$HOME" --ingroup "$GROUP" --uid "$UID" "$USER" \
 && mkdir -p /etc/sudoers.d \
 && echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER \
-&& chmod 0440 /etc/sudoers.d/$USER \
-&& echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
+&& chmod 0440 /etc/sudoers.d/$USER
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 ENV TOOLS='bash zip wget neovim bat psmisc sudo tree mc the_silver_searcher ncdu tmux tini'
