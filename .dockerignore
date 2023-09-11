@@ -4,6 +4,9 @@
 .dockerignore
 .DS_Store
 Dockerfile
+ubuntu-setup.sh
+toolkit-pod.yaml
+toolkit-deploy.yaml
 .idea/
 .gitignore
 .vagrant

@@ -1,11 +1,22 @@
-# Larger footprint image with some basic tools and a non-root user ("morty") with a home and paswordless sudo.
+# Larger footprint image, a shitload of tools, and a non-root user ("morty") with a home and paswordless sudo.
 FROM ubuntu:jammy
 
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    tini zip git wget zsh byobu stow neovim less bat tree ytree httpie ncdu psmisc mc silversearcher-ag sudo \
-    && apt clean && rm -rf /var/lib/apt/lists/*
+    bat bird build-essential byobu ca-certificates conntrack ctop \
+    curl dhcping dnsutils fping gdb git htop httpie iftop iperf iproute2 \
+    ipset iptraf-ng iputils-ping ipvsadm jq ldnsutils less libbz2-dev \
+    libedit-dev libffi-dev liblzma-dev libncursesw5-dev liboping-dev \
+    libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxmlsec1-dev \
+    linux-tools-common llvm mc mtr mycli mysql-client ncdu neovim \
+    netcat netgen nftables ngrep nmap pgcli postgresql-client psmisc \
+    redis-tools scapy silversearcher-ag socat software-properties-common \
+    stow strace sudo tcpdump tcptraceroute termshark tini tk-dev tmux tree \
+    tshark unzip vim wget wuzz xz-utils ytree zip zlib1g-dev zsh \
+    && apt clean && rm -rf /var/lib/apt/lists/* && \
+    curl -L https://github.com/projectcalico/calico/releases/latest/download/calicoctl-linux-amd64 -o calicoctl && \
+    chmod +x calicoctl
 
 # Non-root login user with passwordless sudo
 ARG UID=1000
@@ -19,8 +30,7 @@ RUN addgroup --gid $GID $GROUP && \
     mkdir -p /etc/sudoers.d && \
     echo "$USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$USER && \
     chmod 0440 /etc/sudoers.d/$USER && \
-    rm -f ~/.profile && \
-    echo "Set disable_coredump false" >> /etc/sudo.conf  # Work around crappy-ass bug in sudo
+    rm -f ~/.profile
 
 # The rest needs to happen in morty's HOME
 WORKDIR $HOME
