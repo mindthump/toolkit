@@ -1,5 +1,5 @@
-# Larger footprint image, a shitload of tools, and a non-root user ("morty") with a home and paswordless sudo.
-FROM ubuntu:jammy
+# Larger footprint image (lunar), a shitload of tools, and a non-root user ("morty") with a home and paswordless sudo.
+FROM ubuntu:22.04
 
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
