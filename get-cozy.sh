@@ -1,3 +1,5 @@
+# This is specifically for Ubuntu (and maybe other Debian-based distros)
+
 apt update && \
   apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends bat btop byobu delta exa fd fx fzf gawk git gtop gum hr httpie jless jq just lazycli lazygit less lf mc ncdu neovim nnn par psmisc ranger shellcheck silversearcher-ag ss stow sudo tree wget ydiff yq ytree zip zsh
 
@@ -23,8 +25,8 @@ wget -O omz-install.sh https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/
 git clone --depth 1 https://github.com/mindthump/dotfiles.git ~/.dotfiles && \
   stow --dir ~/.dotfiles --stow zsh vim byobu git && \
   mv ~/tmux.conf ~/.byobu/.tmux.conf
+  
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/${NEW_USER}/.zshrc
 
 ## Preload vim plugins.
 vim +PlugInstall +qall
-
-# SSH public key
