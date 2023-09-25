@@ -1,3 +1,15 @@
+################
+#
+# WORK IN PROGRESS
+#
+################
+
+
+
+
+
+
+
 apt update && \
   apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends
 
@@ -49,9 +61,7 @@ RUN addgroup --gid $GID $GROUP \
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
 ENV
-TOOLS='
-
-bash bat bind-tools btop byobu delta exa fd fx fzf gawk git gtop gum hr httpie iproute2 jless jq just lazycli lazygit less lf mc ncdu neovim net-tools nmap nnn par psmisc ranger shellcheck silversearcher-ag ss stow sudo the_silver_searcher tini tmux tree wget ydiff yq ytree zip zsh
+TOOLS='bash bat bind-tools btop byobu delta exa fd fx fzf gawk git gtop gum hr httpie iproute2 jless jq just lazycli lazygit less lf mc ncdu neovim net-tools nmap nnn par psmisc ranger shellcheck silversearcher-ag ss stow sudo the_silver_searcher tini tmux tree wget ydiff yq ytree zip zsh
 
 RUN apk update \
 && apk add --no-cache ${TOOLS} ${NET_TOOLS} \
