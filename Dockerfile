@@ -4,19 +4,9 @@ FROM ubuntu:22.04
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    bat bird build-essential byobu ca-certificates conntrack ctop \
-    curl dhcping dnsutils fping gdb git htop httpie iftop iperf iproute2 \
-    ipset iptraf-ng iputils-ping ipvsadm jq ldnsutils less libbz2-dev \
-    libedit-dev libffi-dev liblzma-dev libncursesw5-dev liboping-dev \
-    libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxmlsec1-dev \
-    linux-tools-common llvm mc mtr mycli mysql-client ncdu neovim \
-    netcat netgen nftables ngrep nmap pgcli postgresql-client psmisc \
-    redis-tools scapy silversearcher-ag socat software-properties-common \
-    stow strace sudo tcpdump tcptraceroute termshark tini tk-dev tmux tree \
-    tshark unzip vim wget wuzz xz-utils ytree zip zlib1g-dev zsh \
-    && apt clean && rm -rf /var/lib/apt/lists/* && \
-    curl -L https://github.com/projectcalico/calico/releases/latest/download/calicoctl-linux-amd64 -o calicoctl && \
-    chmod +x calicoctl
+    bat build-essential byobu ca-certificates ctop curl dnsutils git htop httpie iproute2 jq less linux-tools-common   \
+    mc ncdu neovim netcat nmap psmisc silversearcher-ag stow sudo tini tmux tree unzip wget xz-utils ytree zip zsh     \
+    && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
 ARG UID=1000

@@ -1,4 +1,4 @@
-# mindthump's docker toolkit
+# mindthump's container (Docker/K8s) toolkit
 
 A Dockerfile and other stuff to quickly create a smallish container for utility work. This is totally specific to me. If you have suggestions on how I do things, please send them; if it's about what I include, don't.
 
@@ -10,6 +10,6 @@ The ARGS include `USER`, `GROUP`, `UID`, `GID`, and `SHELL`.
 ### Tools
 
 See the Dockerfile for added tools I like to have around for developing.
-Lots of other stuff (e.g. Perl) gets installed via dependencies.
+Lots of other stuff gets installed via dependencies.
 
 I `git clone` my `.dotfiles` and use `stow` to symbolic-link them to my home directory.
