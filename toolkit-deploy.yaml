@@ -19,7 +19,10 @@ spec:
     spec:
       containers:
       - name: toolkit-container
-        image: docker.io/mindthump/toolkit:alpine
+        image: mindthump/toolkit:alpine
         imagePullPolicy: Always
-        command: ["/bin/bash"]
-        args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+        command:
+        - "/bin/bash"
+        args:
+        - "-c"
+        - "trap : TERM INT; sleep infinity & wait"

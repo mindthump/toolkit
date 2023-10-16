@@ -9,5 +9,8 @@ spec:
     - name: toolkit-container
       image: mindthump/toolkit:alpine
       imagePullPolicy: Always
-      command: ["/bin/bash"]
-      args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+			command:
+			- "/bin/bash"
+			args:
+			- "-c"
+			- "trap : TERM INT; sleep infinity & wait"

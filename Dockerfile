@@ -18,8 +18,8 @@ RUN addgroup --gid $GID $GROUP \
 && chmod 0440 /etc/sudoers.d/$USER
 
 # TOOLS help me explore the system and make the terminal nicer and easier to use (IMO).
-ENV TOOLS='bash zip wget neovim bat psmisc sudo tree mc the_silver_searcher ncdu tmux tini'
-ENV NET_TOOLS='nmap iproute2 bind-tools net-tools'
+ENV TOOLS='bash zip curl wget neovim bat psmisc sudo tree mc the_silver_searcher ncdu tmux tini jq busybox-extras procps'
+ENV NET_TOOLS='nmap iproute2 bind-tools net-tools iputils'
 
 RUN apk update \
 && apk add --no-cache ${TOOLS} ${NET_TOOLS} \
