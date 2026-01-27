@@ -1,15 +1,57 @@
-# Larger footprint image (lunar), a shitload of tools, and a non-root user ("morty") with a home and paswordless sudo.
-FROM ubuntu:22.04
+# Latest image (raccoon), a shitload of tools, and a non-root user ("morty") with a home and paswordless sudo.
+FROM ubuntu:26.04
 
 ## zsh and useful command line tools, delete what you don't want or need. Do first to avoid sudo.conf install question.
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --yes --quiet --autoremove --no-install-suggests --no-install-recommends \
-    bat build-essential byobu ca-certificates ctop curl dnsutils git htop httpie iproute2 jq less linux-tools-common   \
-    mc ncdu neovim netcat nmap psmisc silversearcher-ag stow sudo tini tmux tree unzip wget xz-utils ytree zip zsh     \
+bat \
+btop \
+build-essential \
+byobu \
+ca-certificates \
+curl \
+delta \
+dnsutils \
+eza \
+fzf \
+gawk \
+git \
+gum \
+htop \
+httpie \
+iproute2 \
+jq \
+just \
+less \
+lf \
+linux-tools-common \
+mc \
+ncdu \
+neovim \
+netcat-traditional \
+nmap \
+nnn \
+par \
+psmisc \
+ranger \
+shellcheck \
+silversearcher-ag \
+stow \
+sudo \
+tini \
+tmux \
+tree \
+unzip \
+wget \
+xz-utils \
+yq \
+ytree \
+zip \
+zsh \
     && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Non-root login user with passwordless sudo
-ARG UID=1000
+ARG UID=1001
 ARG GID=$UID
 ARG USER=morty
 ARG GROUP=$USER
