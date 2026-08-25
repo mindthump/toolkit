@@ -36,14 +36,6 @@ require_root() {
 install_packages() {
   log "Installing packages"
 
-  if ! command -v gum >/dev/null 2>&1; then
-    log "Adding charm.sh apt repo for gum"
-    mkdir -p /etc/apt/keyrings
-    curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" \
-      > /etc/apt/sources.list.d/charm.list
-  fi
-
   apt-get update
   DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --autoremove \
     --no-install-suggests --no-install-recommends \
@@ -58,8 +50,6 @@ install_packages() {
     fzf \
     gawk \
     git \
-    git-delta \
-    gum \
     htop \
     httpie \
     iproute2 \
@@ -90,8 +80,6 @@ install_packages() {
     yq \
     zip \
     zsh
-    # 'ytree' dropped — not a verifiable apt package name. Re-add once you've
-    # confirmed the source (PPA, direct binary, or a different spelling).
 
   apt-get clean
   rm -rf /var/lib/apt/lists/*
