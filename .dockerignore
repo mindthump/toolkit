@@ -4,9 +4,12 @@
 .dockerignore
 .DS_Store
 Dockerfile
-ubuntu-setup.sh
+README.md
+LICENSE
+get-cozy-docker.sh
+get-cozy-k8s.sh
 toolkit-pod.yaml
 toolkit-deploy.yaml
 .idea/
 .gitignore
-.vagrant
+.vagrant/

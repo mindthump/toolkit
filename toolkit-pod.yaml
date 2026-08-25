@@ -8,6 +8,13 @@ spec:
   containers:
     - name: toolkit-container
       image: mindthump/toolkit:main
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: IfNotPresent # Don't worry if it's a little stale
       command: ["/bin/bash"]
       args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi

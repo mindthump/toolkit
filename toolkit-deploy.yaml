@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: toolkit-app
   name: toolkit
@@ -10,10 +9,8 @@ spec:
   selector:
     matchLabels:
       app: toolkit-app
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: toolkit-app
     spec:
@@ -23,3 +20,10 @@ spec:
         imagePullPolicy: Always
         command: ["/bin/bash"]
         args: ["-c", "trap : TERM INT; sleep infinity & wait"]
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
